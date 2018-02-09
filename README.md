@@ -4,4 +4,8 @@
 
 Pantheon also maintains `GIT` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `GIT` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
 
-From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress). 
+From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
+
+The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository such as [Github](https://github.com). Pantheon will not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site.
+
+
