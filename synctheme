@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo rsync -rvz --progress --exclude-from=/home/jason/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/rsync-exclude.txt ~/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/ ~/public_html/ucsc-communications/wp-content/themes/ucsc-comm-genesis-child/
