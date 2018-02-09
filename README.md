@@ -6,6 +6,7 @@ Pantheon also maintains `GIT` repos of each of these environments, which a devel
 
 From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
 
-The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository such as [Github](https://github.com). Pantheon will not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site.
+The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository located someplace else, such as [Github](https://github.com). Pantheon does not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site. The methodology described in this document was developed as a way to overcome this drawback.
 
+## Two Local development sites, bash scripts and rsync
 
