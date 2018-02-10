@@ -8,9 +8,11 @@ Pantheon also maintains `GIT` repos of each of these environments, which a devel
 
 From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
 
-The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository located someplace else, such as [Github](https://github.com). Pantheon does not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site. The methodology described in this document was developed as a way to overcome this drawback.
+The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository located someplace else, such as [Github](https://github.com). Pantheon does not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site.
 
-## Two Local development sites, bash scripts and rsync
+The methodology described in this document was developed as a way to overcome this drawback.
+
+## Two Local development sites, bash scripts, rsync and a text file
 
 _note:_ _as primarily a WordPress developer, the following examples are based on WordPress; however, the same principles apply to Drupal development_
 
@@ -18,7 +20,9 @@ The workaround for Pantheon's strict `GIT` repo policy is to create _two_ sites 
 
 ### Scripts
 
-The scripts contained in this repository are BASH scripts
+The scripts in this repository are [Bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts.
+
+The rsync commands for the `pull-content` and `push-content` scripts were written with the help of Pantheon's [rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation.
 
 The following describes the scripts in this repository:
 
@@ -27,9 +31,26 @@ The following describes the scripts in this repository:
 - **synctheme:** This script will sync the files of your theme or plugin from your local install containing clones of those repos to the local install of the Pantheon repo.
 - **rsync-exclude.txt:** this file is similar to a `.gitignore` file but for rsync. It lists all the files and directories you want to exclude when you run the `synctheme` script. At the very least it should include your `.git/` directory and your `.gitignore` file.
 
+There are a few edits you need to make to make these scripts work for your project.
+
 #### Pull Content
 
-```
+```shell
 #!/bin/bash
 
+rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@appserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:code/wp-content/uploads/. ~/public_html/wptest/wp-content/uploads/.
+
 ```
+This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This information is found in the dashboard of your Pantheon `dev` site at the upper right, **Connection Info**. Replace the information from your `dev` site with the one in this git repo.
+
+This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
+
+#### Push Content
+
+```shell
+#!/bin/bash
+
+rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' ~/public_html/wptest/wp-content/uploads/. --temp-dir=~/tmp/ dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@appserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:files/
+
+```
+This script is the reverse of the one above it. Replace the same information as above from your site in order for this to work. 
