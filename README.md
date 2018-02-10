@@ -14,7 +14,7 @@ The reason that this is a drawback is because this configuration does not allow 
 
 _note:_ _as primarily a WordPress developer, the following examples are based on WordPress; however, the same principles apply to Drupal development_
 
-The workaround for Pantheon's strict `GIT` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict git policy. The second install is for developing your theme or plugins which can be committed, pushed to and pulled from their own respective `GIT` repos. The scripts included in this repo are used to keep everything in sync. These scripts may be used for developing themes as well as plugins.
+The workaround for Pantheon's strict `GIT` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict git policy. The second install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `GIT` repos. The scripts included in this repo are used to keep everything in sync. These scripts may be used for developing themes as well as plugins.
 
 ## Scripts
 
