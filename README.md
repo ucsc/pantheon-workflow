@@ -1,7 +1,6 @@
 # A Development workflow for Pantheon.io
 
-_note: This article assumes the reader is familiar with `Git` and has a local development environment such as [XAMPP](https://www.apachefriends.org/index.html) installed on their computer_
-=======
+_note: This article assumes the reader is familiar with `Git` and has a local development environment such as [XAMPP](https://www.apachefriends.org/index.html) installed on their computer
 
 ## Requirements
 The following are either requirements or strongly recommended:
