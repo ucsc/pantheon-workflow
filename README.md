@@ -89,6 +89,8 @@ This script will sync files _from_ the development directory of your theme or pl
 
 #### rsync-exclude.txt
 
+`--exclude-from=/home/jason/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/rsync-exclude.txt`
+
 Like a `.gitignore` file, this file lists all the files and directories to _exclude_ when you sync your theme or plugin with your local Pantheon Dev site. At the very least, it should list your `.git/` directory, `.gitignore` file and the names of your other scripts. If you develop using a package manager such as [npm](https://www.npmjs.com/), you might also include any non-essential development directories it installs, such as `node_modules/`. Here is the current contents of the `rsync-exclude.txt` file in this repository:
 
 ~~~shell
