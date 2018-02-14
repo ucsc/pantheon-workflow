@@ -8,7 +8,6 @@ _note: This article assumes the reader is familiar with `Git` and has a local de
 
 Pantheon also maintains `Git` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `Git` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
 
-
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dev-workflow.png "Pantheon Development Paradigm")
 
 From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
@@ -62,7 +61,7 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419
 
 This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info** (see image below). Replace the information from your `dev` site with the one in this git repo.
 
-This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders (be sure to include the `.` at the end of your path. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
+This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders (be sure to include the `.` at the end of your path). A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
 
 #### Push Content
 
@@ -88,9 +87,21 @@ This script goes inside your local _non-pantheon_ install. A copy of this script
 
 This script will sync files _from_ the development directory of your theme or plugin _to_ a directory of the same name inside your local Pantheon (_note: the directory names must be the same for each local install_).
 
-##### Synctheme script anatomy
+#### rsync-exclude.txt
 
+Like a `.gitignore` file, this file lists all the files and directories to _exclude_ when you sync your theme or plugin with your local Pantheon Dev site. At the very least, it should list your `.git/` directory, `.gitignore` file and the names of your other scripts. If you develop using a package manager such as [npm](https://www.npmjs.com/), you might also include any non-essential development directories it installs, such as `node_modules/`. Here is the current contents of the `rsync-exclude.txt` file in this repository:
 
+~~~shell
+
+.git/
+.gitignore
+.vscode/
+node_modules/
+synctheme
+pull-content
+push-content
+rsync-exclude.txt
+~~~
 
 ##### Pantheon Environment Connection Info
 
