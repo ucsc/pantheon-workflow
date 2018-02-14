@@ -3,6 +3,7 @@
 _note: This article assumes the reader is familiar with `Git` and has a local development environment such as [XAMPP](https://www.apachefriends.org/index.html) installed on their computer_
 
 ## Requirements
+
 The following are either requirements or strongly recommended:
 
 - Local development server such as [XAMPP](https://www.apachefriends.org/index.html) and the ability to host multiple installs via `<VirtualHosts>`
@@ -11,8 +12,7 @@ The following are either requirements or strongly recommended:
 - [Terminus](https://pantheon.io/docs/terminus/install/) (Recommended)
 - [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db)
 
-
-[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST` in order to test the update. If all tests well, the new code is then pushed to `LIVE`. 
+[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST` in order to test the update. If all tests well, the new code is then pushed to `LIVE`.
 
 Pantheon also maintains `Git` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `Git` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
 
@@ -52,7 +52,8 @@ There are a few edits you need to make to make these scripts work for your proje
 rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@appserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:code/wp-content/uploads/. ~/public_html/wptest/wp-content/uploads/.
 
 ```
-This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This information is found in the dashboard of your Pantheon `dev` site at the upper right, **Connection Info**. Replace the information from your `dev` site with the one in this git repo.
+
+This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info**. Replace the information from your `dev` site with the one in this git repo.
 
 This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
 
@@ -64,6 +65,7 @@ This string `~/public_html/wptest/wp-content/uploads/.` is the path to your loca
 rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' ~/public_html/wptest/wp-content/uploads/. --temp-dir=~/tmp/ dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@appserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:files/
 
 ```
+
 This script is the reverse of the one above it. Replace the same information as above from your site in order for this to work.
 
-![Image](https://s3-us-west-1.amazonaws.com/archive.timelessdesignedfurniture.com/crestview/CEVV0005.jpg "Image Title")
+![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dashboard-connection-info.png "Image Title")
