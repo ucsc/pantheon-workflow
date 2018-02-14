@@ -64,5 +64,6 @@ This string `~/public_html/wptest/wp-content/uploads/.` is the path to your loca
 rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' ~/public_html/wptest/wp-content/uploads/. --temp-dir=~/tmp/ dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@appserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:files/
 
 ```
-This script is the reverse of the one above it. Replace the same information as above from your site in order for this to work. 
->>>>>>> 396265659421f202f302443cdfad88e525397124
+This script is the reverse of the one above it. Replace the same information as above from your site in order for this to work.
+
+![Image](https://s3-us-west-1.amazonaws.com/archive.timelessdesignedfurniture.com/crestview/CEVV0005.jpg "Image Title")
