@@ -2,6 +2,21 @@
 
 _note: This article assumes the reader is familiar with `Git` and has a local development environment such as [XAMPP](https://www.apachefriends.org/index.html) installed on their computer_
 
+## Introduction
+
+[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST` in order to test the update. If all tests well, the new code is then pushed to `LIVE`.
+
+Pantheon also maintains `Git` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `Git` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
+
+
+![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dev-workflow.png "Pantheon Development Paradigm")
+
+From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
+
+The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository located someplace else, such as [Github](https://github.com). Pantheon does not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site.
+
+The methodology described in this document was developed as a way to overcome this drawback.
+
 ## Requirements
 
 The following are either requirements or strongly recommended:
@@ -11,16 +26,6 @@ The following are either requirements or strongly recommended:
 - [WP-Cli](http://wp-cli.org/) (Recommended)
 - [Terminus](https://pantheon.io/docs/terminus/install/) (Recommended)
 - [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db)
-
-[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST` in order to test the update. If all tests well, the new code is then pushed to `LIVE`.
-
-Pantheon also maintains `Git` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `Git` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
-
-From a local development standpoint, a significant drawback of this setup is that the Pantheon repositories are comprised of the _entire_ WordPress (or Drupal) install. (_Almost_ the entire install -- Pantheon excludes the uploads directory, eg. `wp-content/uploads/` in WordPress -- more on that below.)
-
-The reason that this is a drawback is because this configuration does not allow a developer to develop a theme or plugin in a separate repository located someplace else, such as [Github](https://github.com). Pantheon does not permit the creation or cloning of additional repositories _within_ the larger repository of one's development site.
-
-The methodology described in this document was developed as a way to overcome this drawback.
 
 ## Two Local development sites, bash scripts, rsync and a text file
 
@@ -76,6 +81,14 @@ This script is the reverse of the one above it. Replace the same information as 
 rsync -rvz --progress --exclude-from=/home/jason/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/rsync-exclude.txt ~/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/ ~/public_html/ucsc-communications/wp-content/themes/ucsc-comm-genesis-child/
 
 ```
+
+This script goes inside your local _non-pantheon_ install. A copy of this script should reside inside the `root` directory of the piece of custom functionality you're developing. If you are developing a custom theme, this script goes inside `wp-content/themes/name-of-my-theme/`. If you are developing a custom plugin, this script goes inside `wp-content/plugins/name-of-my-plugin/`. (ie., whichever directory in which you would normally perform `git add .`, `git commit -m "my message"`, and `git push origin master`)
+
+This script will sync files _from_ the development directory of your theme or plugin _to_ a directory of the same name inside your local Pantheon (_note: the directory names must be the same for each local install_).
+
+##### Synctheme script anatomy
+
+
 
 ##### Pantheon Environment Connection Info
 
