@@ -4,7 +4,7 @@ _note: This article assumes the reader is familiar with `Git` and has a local de
 
 ## Introduction
 
-[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST` in order to test the update. If all tests well, the new code is then pushed to `LIVE`.
+[Pantheon.io](https://pantheon.io) is a robust [WordPress](https://wordpress.org) and [Drupal](https://drupal.org) hosting service that provides three online environments per site: `DEV`, `TEST` and `LIVE`. Pantheon enforces a workflow whereby one "develops" on `DEV`, "tests" on `TEST` and you point your domain name to `LIVE`. In order to update a site, one updates `DEV` (WP update, plugin update, etc.). In order to test the update, Pantheon pushes the new code from `DEV` and pulls the database from `LIVE` into `TEST`. If all tests well, the new code is then pushed to `LIVE`.
 
 Pantheon also maintains `Git` repos of each of these environments, which a developer may pull from and push to when developing in an local development environment such as WAMPP\MAMPP\LAMPP. (While all three environments are available via a `Git` repo, it is _highly_ recommended that a developer only utilize the `DEV` repo.)
 
@@ -31,7 +31,9 @@ The following are either requirements or strongly recommended:
 
 _note:_ _as primarily a WordPress developer, the following examples are based on WordPress; however, the same principles apply to Drupal development_
 
-The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy. The second install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- The reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
+The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy.
+
+The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- The reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
 
 ### Scripts
 
@@ -60,7 +62,7 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419
 
 This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info** (see image below). Replace the information from your `dev` site with the one in this git repo.
 
-This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
+This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders (be sure to include the `.` at the end of your path. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
 
 #### Push Content
 
