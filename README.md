@@ -53,7 +53,7 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419
 
 ```
 
-This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info**. Replace the information from your `dev` site with the one in this git repo.
+This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info** (see image below). Replace the information from your `dev` site with the one in this git repo.
 
 This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders. A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
 
@@ -66,6 +66,17 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' ~/public_html/wptest/
 
 ```
 
-This script is the reverse of the one above it. Replace the same information as above from your site in order for this to work.
+This script is the reverse of the one above it. Replace the same information as above from your Pantheon site and your local `wp-content/uploads/` in order for this to work.
+
+#### Synctheme
+
+```shell
+#!/bin/bash
+
+rsync -rvz --progress --exclude-from=/home/jason/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/rsync-exclude.txt ~/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/ ~/public_html/ucsc-communications/wp-content/themes/ucsc-comm-genesis-child/
+
+```
+
+##### Pantheon Environment Connection Info
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dashboard-connection-info.png "Image Title")
