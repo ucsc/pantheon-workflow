@@ -26,15 +26,15 @@ The following are either requirements or strongly recommended:
 - [Terminus](https://pantheon.io/docs/terminus/install/) (Recommended)
 - [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db)
 
-## Two Local development sites, bash scripts, rsync and a text file
+## The workaround
 
 _note:_ _as primarily a WordPress developer, the following examples are based on WordPress; however, the same principles apply to Drupal development_
 
 The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy.
 
-The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- The reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
+The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- the reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
 
-### Scripts
+## The scripts
 
 The scripts in this repository are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts.
 
@@ -42,15 +42,29 @@ The rsync commands for the `pull-content` and `push-content` scripts were writte
 
 The following describes the scripts in this repository:
 
-- **pull-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directories from your Pantheon `DEV` install to your local environment. As described above, Pantheon omits this directory and the subdirectories contained therein from it's repo (which makes sense, as these can become quite large). This script may be used in both local development environments, as each environment will need this data locally in order to resolve properly.
-- **push-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directory of your local development environment with the Pantheon `DEV` environment. This script is not used as frequently as `pull-content`, as most of the time one is adding content and files directly to the Pantheon `DEV` environment. This especially true if many people are working on content development for a site.
+- **pull-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directories from your Pantheon `DEV` install to your local environment. As mentioned above, for Git efficiency Pantheon omits this directory and the subdirectories contained therein from the repo. This script may be used in both local development environments, as each environment will need this data locally in order for the _work_ to _flow_ properly.
+- **push-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directory of your local development environment with the Pantheon `DEV` environment. This script is not used as frequently as `pull-content`, as most of the time one is adding content and files directly to the Pantheon `DEV` environment (this especially true if many people are working on content development for a site). But if you begin your project locally and want to push your initial work up to Pantheon, this is the script to do it with.
 - **synctheme:** This script will sync the files of your theme or plugin from your local install containing clones of those repos to the local install of the Pantheon repo.
 
 - **rsync-exclude.txt:** this file is similar to a `.gitignore` file but for rsync. It lists all the files and directories you want to exclude when you run the `synctheme` script. At the very least it should include your `.git/` directory and your `.gitignore` file.
 
+## The Plugin
+
+As mentioned above, this workflow depends on two _complete_ WordPress installs on your local development machine, including MySQL databases. While the scripts in this repository will keep the files in sync, we will use a special WordPress Developer's plugin called [wp-sync-db](#) to keep the databases in sync. This plugin will need to be installed and activated on both local WordPress installs.
+
+- **[wp-sync-db](#):** A WordPress developer's plugin that enables syncing WordPress databases between installs. The link is to a github repo. The plugin is free.
+
+(The same concept applies to Drupal; however, I am unaware of a similar Drupal developer's module that will achieve the same thing.)
+
+## Editing the scripts
+
+_note: As described above, these are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts comprised of [rsync](https://rsync.samba.org/) commands. They can be edited in any text editor, just be sure to maintain the [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) located at the top of the file and make them executable._
+
 There are a few edits you need to make to make these scripts work for your project.
 
-#### Pull Content
+### Pull Content
+
+Contents of the `pull-content` script.
 
 ```shell
 #!/bin/bash
@@ -59,11 +73,13 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' dev.81cf9d89-c08b-419
 
 ```
 
-This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in (`dev`, `test`, or `live` -- again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info** (see image below). Replace the information from your `dev` site with the one in this git repo.
+This string, `81cf9d89-c08b-419a-a74c-ffcdcd84766b` is what identifies your particular Pantheon site. This string, `dev` identifies the Pantheon environment you're working in , `dev`, `test`, or `live` (again, it is highly recommended you stick with the `dev` repo when developing a new site). This information is found in the dashboard of your Pantheon site at the upper right, **Connection Info** (see image below). Replace the information from your `dev` site with the one in this git repo.
 
-This string `~/public_html/wptest/wp-content/uploads/.` is the path to your local installations' respective `/wp-content/uploads/` folders (be sure to include the `.` at the end of your path). A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
+This string, `~/public_html/wptest/wp-content/uploads/.`, is the path to your local installations' respective `/wp-content/uploads/` folders (be sure to include the `.` at the end of your path). A copy of this script should go in the root WordPress directories of each of your two local installations, edited accordingly.
 
-#### Push Content
+### Push Content
+
+Contents of the `push-content` script.
 
 ```shell
 #!/bin/bash
@@ -74,7 +90,9 @@ rsync -rlvz --size-only --ipv4 --progress -e 'ssh -p 2222' ~/public_html/wptest/
 
 This script is the reverse of the one above it. Replace the same information as above from your Pantheon site and your local `wp-content/uploads/` in order for this to work.
 
-#### Synctheme
+### Synctheme
+
+Contents of the `syncthem` script.
 
 ```shell
 #!/bin/bash
@@ -83,11 +101,11 @@ rsync -rvz --progress --exclude-from=/home/jason/public_html/wptest/wp-content/t
 
 ```
 
-This script goes inside your local _non-pantheon_ install. A copy of this script should reside inside the `root` directory of the piece of custom functionality you're developing. If you are developing a custom theme, this script goes inside `wp-content/themes/name-of-my-theme/`. If you are developing a custom plugin, this script goes inside `wp-content/plugins/name-of-my-plugin/`. (ie., whichever directory in which you would normally perform `git add .`, `git commit -m "my message"`, and `git push origin master`)
+This script goes inside your local _non-pantheon_ install. A copy of this script should reside inside the `root` directory of each piece of custom functionality you're developing. If you are developing a custom theme, this script goes inside `wp-content/themes/name-of-my-theme/`. If you are developing a custom plugin, this script goes inside `wp-content/plugins/name-of-my-plugin/`. (ie., whichever directory you would normally perform `git add .`, `git commit -m "my message"`, and `git push origin master`.)
 
 This script will sync files _from_ the development directory of your theme or plugin _to_ a directory of the same name inside your local Pantheon install (_note: the directory names must be the same for each local install_).
 
-#### rsync-exclude.txt
+### rsync-exclude.txt
 
 From the `synctheme` script:
 
@@ -96,7 +114,6 @@ From the `synctheme` script:
 Like a `.gitignore` file, this file lists all the files and directories to _exclude_ when you sync your theme or plugin with your local Pantheon Dev site. At the very least, it should list your `.git/` directory, `.gitignore` file and the names of your other scripts. If you develop using a package manager such as [npm](https://www.npmjs.com/), you might also include any non-essential development directories it installs, such as `node_modules/`. Here is the current contents of the `rsync-exclude.txt` file in this repository:
 
 ~~~shell
-
 .git/
 .gitignore
 .vscode/
@@ -109,7 +126,7 @@ rsync-exclude.txt
 
 ## Editing scripts
 
-A few notes about editing the scripts included in this repo. As described above, these are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts comprised of [rsync](https://rsync.samba.org/) commands. They can be edited in any text editor, just be sure to maintain the [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) located at the top of the file.
+
 
 ### Absolute paths
 
