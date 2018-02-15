@@ -36,7 +36,7 @@ The second local install is for developing your theme or plugins, which can be c
 
 ### Scripts
 
-The scripts in this repository are [Bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts.
+The scripts in this repository are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts.
 
 The rsync commands for the `pull-content` and `push-content` scripts were written with the help of Pantheon's [rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation.
 
@@ -117,7 +117,7 @@ The paths in these scripts are *absolute*, or full paths (eg., `/home/jason/publ
 
 ### Rsyc flags / Do a dry-run
 
-Like many [Unix](#)-like programs, you can pass options to your command using "flags". Flags are notated using either single or double dashes `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](#) documentation): `-rlvz`, `--size-only`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
+Like many [Unix](https://en.wikipedia.org/wiki/Unix)-like programs, you can pass options to your command using "flags". Flags are notated using either single or double dashes `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation): `-rlvz`, `--size-only`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
 
 `--dry-run`
 
@@ -145,6 +145,6 @@ user@computer:~/public_html/wptest/wp-content/themes/my-custom-thenme$./syncthem
 
 ... which is to say `./synctheme`
 
-##### Pantheon Environment Connection Info
+#### Pantheon Environment Connection Info
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dashboard-connection-info.png "Image Title")
