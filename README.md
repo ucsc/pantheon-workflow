@@ -85,7 +85,7 @@ rsync -rvz --progress --exclude-from=/home/jason/public_html/wptest/wp-content/t
 
 This script goes inside your local _non-pantheon_ install. A copy of this script should reside inside the `root` directory of the piece of custom functionality you're developing. If you are developing a custom theme, this script goes inside `wp-content/themes/name-of-my-theme/`. If you are developing a custom plugin, this script goes inside `wp-content/plugins/name-of-my-plugin/`. (ie., whichever directory in which you would normally perform `git add .`, `git commit -m "my message"`, and `git push origin master`)
 
-This script will sync files _from_ the development directory of your theme or plugin _to_ a directory of the same name inside your local Pantheon (_note: the directory names must be the same for each local install_).
+This script will sync files _from_ the development directory of your theme or plugin _to_ a directory of the same name inside your local Pantheon install (_note: the directory names must be the same for each local install_).
 
 #### rsync-exclude.txt
 
