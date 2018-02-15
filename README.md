@@ -42,7 +42,7 @@ The rsync commands for the `pull-content` and `push-content` scripts were writte
 
 The following describes the scripts in this repository:
 
-- **pull-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directories from your Pantheon `DEV` install to your local environment. As described above, Pantheon omits this directory and the subdirectories contained therein from it's repo (which makes sense, as these can become quite large). This script may be used in both local development environments, as each environment will need this data locally in order to resolve proerly.
+- **pull-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directories from your Pantheon `DEV` install to your local environment. As described above, Pantheon omits this directory and the subdirectories contained therein from it's repo (which makes sense, as these can become quite large). This script may be used in both local development environments, as each environment will need this data locally in order to resolve properly.
 - **push-content:** This script uses [rsync](https://rsync.samba.org/) to sync the `wp-content/uploads/` directory of your local development environment with the Pantheon `DEV` environment. This script is not used as frequently as `pull-content`, as most of the time one is adding content and files directly to the Pantheon `DEV` environment. This especially true if many people are working on content development for a site.
 - **synctheme:** This script will sync the files of your theme or plugin from your local install containing clones of those repos to the local install of the Pantheon repo.
 
