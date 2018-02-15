@@ -34,7 +34,9 @@ The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites 
 
 The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- the reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
 
-## The scripts
+## The constituent parts
+
+### The scripts
 
 The scripts in this repository are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts.
 
@@ -48,11 +50,11 @@ The following describes the scripts in this repository:
 
 - **rsync-exclude.txt:** this file is similar to a `.gitignore` file but for rsync. It lists all the files and directories you want to exclude when you run the `synctheme` script. At the very least it should include your `.git/` directory and your `.gitignore` file.
 
-## The Plugin
+### The plugin
 
-As mentioned above, this workflow depends on two _complete_ WordPress installs on your local development machine, including MySQL databases. While the scripts in this repository will keep the files in sync, we will use a special WordPress Developer's plugin called [wp-sync-db](#) to keep the databases in sync. This plugin will need to be installed and activated on both local WordPress installs.
+As mentioned above, this workflow depends on two _complete_ WordPress installs on your local development machine, including MySQL databases. While the scripts in this repository will keep the files in sync, we will use a special WordPress Developer's plugin called [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db) to keep the databases in sync. This plugin will need to be installed and activated on both local WordPress installs.
 
-- **[wp-sync-db](#):** A WordPress developer's plugin that enables syncing WordPress databases between installs. The link is to a github repo. The plugin is free.
+- **[wp-sync-db](https://github.com/wp-sync-db/wp-sync-db):** A WordPress developer's plugin that enables syncing WordPress databases between installs. The link is to a github repo. The plugin is free.
 
 (The same concept applies to Drupal; however, I am unaware of a similar Drupal developer's module that will achieve the same thing.)
 
@@ -125,8 +127,6 @@ rsync-exclude.txt
 ~~~
 
 ## Editing scripts
-
-
 
 ### Absolute paths
 
