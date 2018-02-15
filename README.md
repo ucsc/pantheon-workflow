@@ -107,6 +107,44 @@ push-content
 rsync-exclude.txt
 ~~~
 
+## Editing scripts
+
+A few notes about editing the scripts included in this repo. As described above, these are [bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-script.php) scripts comprised of [rsync](https://rsync.samba.org/) commands. They can be edited in any text editor, just be sure to maintain the [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) located at the top of the file.
+
+### Absolute paths
+
+The paths in these scripts are *absolute*, or full paths (eg., `/home/jason/public_html/wptest/wp-content/themes/ucsc-comm-genesis-child/rsync-exclude.txt`). The reason for this is so that each script can be placed _anywhere_ on your machine to run. As described above, the `synctheme` script resides in my theme's `root` directory, ie., the directory I'm pulling from and pushing to in Git. Using absolute paths, I can run the script from within my working directory and be sure that the proper directory structure is used.
+
+### Rsyc flags / Do a dry-run
+
+Like many [Unix](#)-like programs, you can pass options to your command using "flags". Flags are notated using either single or double dashes `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](#) documentation): `-rlvz`, `--size-only`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
+
+`--dry-run`
+
+This flag can be added anywhere within the sequence of the other tags. I often just put it first:
+
+`rsync --dry-run -rlvz --etc --etc --etc`
+
+Once I run the script (or simply paste the entire rsync command into my terminal) with the `--dry-run` flag and make sure it's doing what I want it to do, I'll remove that flag for future script runs.
+
+### Make scripts executable
+
+In addition to editing the command inside the script, you may also rename your scripts to any name that makes sense to you. If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
+
+~~~shell
+user@computer:~$ chmod +x scriptName
+~~~
+
+### Executing the script
+
+Once you get your rsync commands edited properly, it's time to run it! Here is how:
+
+~~~shell
+user@computer:~/public_html/wptest/wp-content/themes/my-custom-thenme$./synctheme
+~~~
+
+... which is to say `./synctheme`
+
 ##### Pantheon Environment Connection Info
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-dashboard-connection-info.png "Image Title")
