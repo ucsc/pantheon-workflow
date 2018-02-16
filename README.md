@@ -32,7 +32,7 @@ _note:_ _as primarily a WordPress developer, the following examples are based on
 
 The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy.
 
-The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- the reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
+The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- as this setup requires keeping both databases and `wp-content/uploads/` directories in sync.
 
 ## The constituent parts
 
