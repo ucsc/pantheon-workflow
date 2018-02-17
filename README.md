@@ -197,6 +197,16 @@ Enter your `projects/` directory (or wherever you keep your web projects) and pa
 git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
 ~~~
 
+This will create a directory (in this case, `ucsc-communications`) and pull the `dev` site into it.
+
+`cd` into the new directory.
+
+~~~shell
+cd ucsc-communications
+~~~
+
+set up `wp-config.php`.
+
 #### wp-config-local.php
 
 In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file, which is actually not so standard, as it's customized for Pantheon's servers. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
@@ -212,3 +222,13 @@ Enter the database name, user and password in the appropriate places in yonur ne
 Now that you have the database set up and the Pantheon dev site cloned, it's time to visit the local URL you are using to identify it with in your `<VirtualHosts>` file (eg: http://my-pantheon-site.local). If all goes well, you should see the WordPress install script:
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/wordpress-install.png "Clone from Pantheon")
+
+Run through the WordPress install script. You can name the site anything, use any uername or password you want. This info will be replaced by the user/pass of the Pantheon `dev` site once you sync it. You'll still need _this_ user/pass to install the plugin, however. The end result should be a vanilla WP install. Log in to the dashboard.
+
+## Custom dev site
+
+The second local dev site can be just a vanilla WordPress install. So install a second instance of WP as you normally would and connect it to the second database you installed earlier.
+
+Copy the plugins from the Pantheon local install to this local install, no need to activate.
+
+You now have two "basic" WordPress installs.
