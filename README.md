@@ -155,7 +155,7 @@ Once I run the script (or simply paste the entire rsync command into my terminal
 In addition to editing the command inside the script, you may also rename your scripts to any name that makes sense to you. If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
 
 ~~~shell
-user@computer:~$ chmod +x scriptName
+chmod +x scriptName
 ~~~
 
 ### Executing a script
@@ -163,10 +163,8 @@ user@computer:~$ chmod +x scriptName
 Once you get your rsync commands edited properly, it's time to run it! Here is how:
 
 ~~~shell
-user@computer:~/public_html/wptest/wp-content/themes/my-custom-thenme$./synctheme
+./synctheme
 ~~~
-
-... which is to say `./synctheme`
 
 #### Pantheon Environment Connection Info
 
@@ -198,7 +196,7 @@ You will find your `dev` site's clone command in its dashboard by clicking the b
 Enter your [Apache](https://httpd.apache.org/) or [Nginx](https://www.nginx.com/) document root and paste the command you copied from your Pantheon `dev` dashboard into your terminal:
 
 ~~~shell
-user@computer:~/public_html/git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
+git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
 ~~~
 
 #### wp-config-local.php
@@ -206,7 +204,7 @@ user@computer:~/public_html/git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a7
 In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file, which is actually not so standard, as it's customized for Pantheon's servers. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
 
 ~~~shell
-user@computer:~/public_html/my-pantheon-dev-site/$ cp wp-config-sample.php wp-config-local.php
+cp wp-config-sample.php wp-config-local.php
 ~~~
 
 Enter the database name, user and password in the appropriate places in yonur new `wp-config-local.php` file.
