@@ -140,7 +140,7 @@ The paths in these scripts are *absolute*, or full paths (eg., `/home/jason/publ
 
 ### Rsyc flags / Do a dry-run
 
-Like many [Unix](https://en.wikipedia.org/wiki/Unix)-like programs, you can pass options to your command using "flags." Flags are notated using either single or double dashes `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation): `-rlvz`, `--size-only`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
+Like many [Unix](https://en.wikipedia.org/wiki/Unix)-like programs, you can pass options to your command using "flags." Flags are notated using either single or double dashes: `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation): `-rlvz`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
 
 `--dry-run`
 
@@ -152,7 +152,7 @@ Once I run the script (or simply paste the entire rsync command into my terminal
 
 ### Make scripts executable
 
-In addition to editing the command inside the script, you may also rename your scripts to any name that makes sense to you. If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
+In addition to editing the command inside the script, you may also rename your scripts to anything that makes sense to you (if I'm developing a plugin, `synctheme` becomes `syncplug`). If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
 
 ~~~shell
 chmod +x scriptName
@@ -174,26 +174,24 @@ Once you get your rsync commands edited properly, it's time to run it! Here is h
 
 As described above, this workflow requires _two_ local installations. Setting up a local web development environment is beyond the purview of this article. It is also assumed that you have [generated and added your SSH Key to Pantheon](https://pantheon.io/docs/ssh-keys/). 
 
-- __Pantheon `dev` clone__
-- __Custom Theme and Plugin install__
+- __Install One:__ Pantheon `dev` clone
+- __Install Two:__ Custom Theme and Plugin install
+
+### Databases
+
+Create two new _empty_ MySQL databases, one for each install, either in your local phpMyAdmin web UI or via the command line. Give your user permissions to access them.
+
+You may download a copy of your `dev` site's database from its Pantheon dashboard and upload it to your newly created local database; however, for this setup, I will be using [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db), the developer's plugin listed at the top, to pull the dev database down to the local installs.
+
+We'll do this after the basic install, so for the time being we are going to leave them empty and run the WordPress installation script to get the standard "Hello World" database content.
 
 ### Pantheon `dev` clone
-
-#### Database
-
-Create a new _empty_ MySQL database in your local phpMyAdmin either directly in the web UI or via the command line. Give your user permissions to access it.
-
-You may download a copy of your `dev` site's database from its dashboard and upload it to your newly created local database; however, for this setup, I recommend using [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db), the developer's plugin listed at the top, to pull the dev database down to your local install.
-
-For this reason, for the time being, we are going to leave it empty. Once the site is cloned and launched locally, it will run the WordPress installation script and you will get the standard "Hello World" database content. 
-
-#### Clone Pantheon dev
 
 You will find your `dev` site's clone command in its dashboard by clicking the big orange __Clone with Git__ button at the top right and copying the command. The __Development Mode__ of your site must be set to __Git__.
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-clone.png "Clone from Pantheon")
 
-Enter your [Apache](https://httpd.apache.org/) or [Nginx](https://www.nginx.com/) document root and paste the command you copied from your Pantheon `dev` dashboard into your terminal:
+Enter your `projects/` directory (or wherever you keep your web projects) and paste the command you copied from your Pantheon `dev` dashboard into your terminal:
 
 ~~~shell
 git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
