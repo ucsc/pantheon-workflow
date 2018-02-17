@@ -32,7 +32,9 @@ _note:_ _as primarily a WordPress developer, the following examples are based on
 
 The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy.
 
-The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- as this setup requires keeping both databases and `wp-content/uploads/` directories in sync.
+The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. 
+
+It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- as this setup requires keeping both databases and `wp-content/uploads/` drectories in sync.
 
 ## The constituent parts
 
@@ -201,13 +203,13 @@ user@computer:~/public_html/git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a7
 
 #### wp-config-local.php
 
-In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
+In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file, which is actually not so standard, as it's customized for Pantheon's servers. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
 
 ~~~shell
 user@computer:~/public_html/my-pantheon-dev-site/$ cp wp-config-sample.php wp-config-local.php
 ~~~
 
-Enter the database name, user and password in the appropriate places in your new `wp-config-local.php` file.
+Enter the database name, user and password in the appropriate places in yonur new `wp-config-local.php` file.
 
 #### Fire up your new local Pantheon dev site
 
