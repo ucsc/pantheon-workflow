@@ -215,11 +215,7 @@ In order to develop a Pantheon site locally, a local configuration file, `wp-con
 cp wp-config-sample.php wp-config-local.php
 ~~~
 
-<<<<<<< HEAD
-Enter the database name, user and password in the appropriate places in your `wp-config-local.php` file.
-=======
 Enter the database name, user and password in the appropriate places in yonur new `wp-config-local.php` file.
->>>>>>> ccd3956b5cec99e219bae5ac800551ef509e95d2
 
 #### Fire up your new local Pantheon dev site
 
