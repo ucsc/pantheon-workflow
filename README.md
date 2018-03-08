@@ -32,7 +32,9 @@ _note:_ _as primarily a WordPress developer, the following examples are based on
 
 The workaround for Pantheon's strict `Git` repo policy is to create _two_ sites on your local development machine. One site is simply a clone of your Pantheon `DEV` site, with its strict Git policy.
 
-The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- the reason for this will be explained later. The scripts included in this repo are used to keep everything in sync.
+The second local install is for developing your theme or plugins, which can be committed, pushed to and pulled from their own respective `Git` repos. 
+
+It is important that you have two **complete** WP installs -- WordPress Core, database, etc. -- as this setup requires keeping both databases and `wp-content/uploads/` drectories in sync.
 
 ## The constituent parts
 
@@ -138,7 +140,7 @@ The paths in these scripts are *absolute*, or full paths (eg., `/home/jason/publ
 
 ### Rsyc flags / Do a dry-run
 
-Like many [Unix](https://en.wikipedia.org/wiki/Unix)-like programs, you can pass options to your command using "flags." Flags are notated using either single or double dashes `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation): `-rlvz`, `--size-only`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
+Like many [Unix](https://en.wikipedia.org/wiki/Unix)-like programs, you can pass options to your command using "flags." Flags are notated using either single or double dashes: `-v` or `--verbose` will both run the script with verbose output. The `pull-content` and `push-content` rsync commands each use the following flags (as described in the [Pantheon rsync and SFTP](https://pantheon.io/docs/rsync-and-sftp/) documentation): `-rlvz`, `--size-only`, `--ipv4`, `--progress`, and `-e`. Before running a script from within your particular development environment, it is helpful to do a __dry run__ of your script by adding the following additional flag:
 
 `--dry-run`
 
@@ -150,10 +152,10 @@ Once I run the script (or simply paste the entire rsync command into my terminal
 
 ### Make scripts executable
 
-In addition to editing the command inside the script, you may also rename your scripts to any name that makes sense to you. If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
+In addition to editing the command inside the script, you may also rename your scripts to anything that makes sense to you (if I'm developing a plugin, `synctheme` becomes `syncplug`). If the script is not executable after you clone this repo, or if it _becomes_ not executable due to your edits, you can make it executable by issuing the following command in your terminal:
 
 ~~~shell
-user@computer:~$ chmod +x scriptName
+chmod +x scriptName
 ~~~
 
 ### Executing a script
@@ -161,10 +163,8 @@ user@computer:~$ chmod +x scriptName
 Once you get your rsync commands edited properly, it's time to run it! Here is how:
 
 ~~~shell
-user@computer:~/public_html/wptest/wp-content/themes/my-custom-thenme$./synctheme
+./synctheme
 ~~~
-
-... which is to say `./synctheme`
 
 #### Pantheon Environment Connection Info
 
@@ -174,43 +174,65 @@ user@computer:~/public_html/wptest/wp-content/themes/my-custom-thenme$./syncthem
 
 As described above, this workflow requires _two_ local installations. Setting up a local web development environment is beyond the purview of this article. It is also assumed that you have [generated and added your SSH Key to Pantheon](https://pantheon.io/docs/ssh-keys/). 
 
-- __Pantheon `dev` clone__
-- __Custom Theme and Plugin install__
+- __Install One:__ Pantheon `dev` clone
+- __Install Two:__ Custom Theme and Plugin install
+
+### Databases
+
+Create two new _empty_ MySQL databases, one for each install, either in your local phpMyAdmin web UI or via the command line. Give your user permissions to access them.
+
+You may download a copy of your `dev` site's database from its Pantheon dashboard and upload it to your newly created local database; however, for this setup, I will be using [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db), the developer's plugin listed at the top, to pull the dev database down to the local installs.
+
+We'll do this after the basic install, so for the time being we are going to leave them empty and run the WordPress installation script to get the standard "Hello World" database content.
 
 ### Pantheon `dev` clone
-
-#### Database
-
-Create a new _empty_ MySQL database in your local phpMyAdmin either directly in the web UI or via the command line. Give your user permissions to access it.
-
-You may download a copy of your `dev` site's database from its dashboard and upload it to your newly created local database; however, for this setup, I recommend using [wp-sync-db](https://github.com/wp-sync-db/wp-sync-db), the developer's plugin listed at the top, to pull the dev database down to your local install.
-
-For this reason, for the time being, we are going to leave it empty. Once the site is cloned and launched locally, it will run the WordPress installation script and you will get the standard "Hello World" database content. 
-
-#### Clone Pantheon dev
 
 You will find your `dev` site's clone command in its dashboard by clicking the big orange __Clone with Git__ button at the top right and copying the command. The __Development Mode__ of your site must be set to __Git__.
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/pantheon-clone.png "Clone from Pantheon")
 
-Enter your [Apache](https://httpd.apache.org/) or [Nginx](https://www.nginx.com/) document root and paste the command you copied from your Pantheon `dev` dashboard into your terminal:
+Enter your `projects/` directory (or wherever you keep your web projects) and paste the command you copied from your Pantheon `dev` dashboard into your terminal:
 
 ~~~shell
-user@computer:~/public_html/git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
+git clone ssh://codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b@codeserver.dev.81cf9d89-c08b-419a-a74c-ffcdcd84766b.drush.in:2222/~/repository.git ucsc-communications
 ~~~
+
+This will create a directory (in this case, `ucsc-communications`) and pull the `dev` site into it.
+
+`cd` into the new directory.
+
+~~~shell
+cd ucsc-communications
+~~~
+
+set up `wp-config.php`.
 
 #### wp-config-local.php
 
-In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
+In order to develop a Pantheon site locally, a local configuration file, `wp-config-local.php` is needed along with the standard `wp-config.php` file, which is actually not so standard, as it's customized for Pantheon's servers. WordPress installs also come with a `wp-config-sample.php` file. The best way to set up your local config is to make a copy of `wp-config-sample.php` and rename it to `wp-config-local.php`.
 
 ~~~shell
-user@computer:~/public_html/my-pantheon-dev-site/$ cp wp-config-sample.php wp-config-local.php
+cp wp-config-sample.php wp-config-local.php
 ~~~
 
+<<<<<<< HEAD
 Enter the database name, user and password in the appropriate places in your `wp-config-local.php` file.
+=======
+Enter the database name, user and password in the appropriate places in yonur new `wp-config-local.php` file.
+>>>>>>> ccd3956b5cec99e219bae5ac800551ef509e95d2
 
 #### Fire up your new local Pantheon dev site
 
 Now that you have the database set up and the Pantheon dev site cloned, it's time to visit the local URL you are using to identify it with in your `<VirtualHosts>` file (eg: http://my-pantheon-site.local). If all goes well, you should see the WordPress install script:
 
 ![Image](https://s3-us-west-1.amazonaws.com/mollusk/UCSC/wordpress-install.png "Clone from Pantheon")
+
+Run through the WordPress install script. You can name the site anything, use any uername or password you want. This info will be replaced by the user/pass of the Pantheon `dev` site once you sync it. You'll still need _this_ user/pass to install the plugin, however. The end result should be a vanilla WP install. Log in to the dashboard.
+
+## Custom dev site
+
+The second local dev site can be just a vanilla WordPress install. So install a second instance of WP as you normally would and connect it to the second database you installed earlier.
+
+Copy the plugins from the Pantheon local install to this local install, no need to activate.
+
+You now have two "basic" WordPress installs.
